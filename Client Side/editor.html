@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Monster Creator and Editor</title>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+        <script src='http://use.edgefonts.net/creepster.js'></script>
+        <script src='http://use.edgefonts.net/nosifer.js'></script>
+        <script src='http://use.edgefonts.net/frijole.js'></script>
+        <style>
+            body, *{
+                margin: 0;
+                padding: 0;
+                box-sizing: content-box;
+            }
+            ul { color: white; list-style-type:none}
+            li{float: left;}
+            .palette{
+                width:95%;
+                margin: auto;
+                margin: auto;
+                color: aqua;
+                padding: 10px;
+                overflow:hidden;
+            }
+            body{
+                background-image: url("https://thewallpaper.co/wp-content/uploads/2020/07/samsung-horror-blue-dark-creepy-dual-screen-apple-backgrounds-scary-hd-images-evil-spooky.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .head{
+                width:90%;
+                height:40%;
+                margin: auto;
+                text-align: center;
+                font-family: 'Nosifer';
+                margin-bottom: 50px;
+            }
+            .flexx{
+                display: flex;
+                margin: auto;
+                width:90%;
+            }
+            .board{
+                width:80%;
+                min-height: 80vh;
+                margin: 0.5rem auto;
+                text-align: center;
+                background-image: url("https://i.pinimg.com/474x/ba/d2/10/bad210a91ac2d87911359aab80afc2b3.jpg");
+                background-size: cover;
+                border: 5px solid red; 
+                background-color: black;
+                font-family: 'Creepster';
+                font-size: x-large;
+                box-shadow: 0 0 15px 10px #141414;
+                height: 50%;
+            }
+            #Head{      
+                width: 22%;
+                border: 5px solid red;
+                background-image: url("https://ak.picdn.net/shutterstock/videos/6183851/thumb/1.jpg");
+                background-size: cover;
+                margin:10px;
+           
+            }
+            #Body{
+                width: 22%;
+                border: 5px solid red;
+                background-image: url("https://ak.picdn.net/shutterstock/videos/6183851/thumb/1.jpg");
+                background-size: cover;
+                margin:10px;
+            }
+            #Hands{
+                width: 22%;
+                border: 5px solid red;
+                background-image: url("https://ak.picdn.net/shutterstock/videos/6183851/thumb/1.jpg");
+                background-size: cover;
+                margin:10px;
+            }
+            #Foots{
+                width: 22%;
+                border: 5px solid red;
+                background-image: url("https://ak.picdn.net/shutterstock/videos/6183851/thumb/1.jpg");
+                background-size: cover;
+                margin:10px;
+            }
+            #footer{
+                width: 80%;
+                margin: auto;
+                display: flex;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                color:red;
+                font-family: 'Frijole';
+                font-size: x-large;
+            }
+            .head h2{
+                color:red;
+            }
+            button{
+                margin: 10px;
+                position:relative;          
+                left:5%;
+            }
+            button :hover{
+                cursor:pointer;
+            }
+            img {
+                width: 100px;
+                height: 100px;
+                }
+            img:hover{
+                cursor: pointer;
+            }
+            </style>
+    </head>
+    <body>
+        <div class="palette">
+            <div class="head">
+                <h1 style="color:red">Monster Palette</h1><br>
+            <div class="flexx">
+                <div id="Head">
+                    <h2>HEAD</h2><br>
+                <ul>
+                <li><img src="head6.jpg" ></li>
+                <li><img src="head5.jpg" ></li>
+                <li><img src="head7.png" ></li>
+                <li><img src="head6.png" ></li>
+                </ul>
+                </div>
+                <div id="Body">
+                    <h2>BODY</h2><br>
+                <ul>
+                <li><img src="body1.PNG" ></li>
+                <li><img src="body2.PNG" ></li>
+                </ul>
+                </div>
+                <div id="Hands">
+                    <h2>HANDS</h2><br>
+                 <ul> 
+                <li><img src="hand1L.png" ></li>
+                <li><img src="hand1R.png" ></li>
+                <li><img src="hand2L.png" ></li>
+                <li><img src="hand2R.png" ></li>
+                <li><img src="hand4L.png" ></li>
+                <li><img src="hand4R.png" ></li>       
+                </ul>
+                </div>
+                <div id="Foots">
+                    <h2>LEGS</h2><br>
+                <ul>
+                <li><img src="feet1L.PNG" ></li>
+                <li><img src="feet1R.PNG" ></li> 
+                <li><img src="leg4L.png" ></li>
+                <li><img src="leg4R.png" ></li>
+                <li><img src="feet3L.PNG" ></li>           
+                <li><img src="feet3R.PNG" ></li>
+                </ul>
+                </div>
+            </div>
+            </div>
+            <div class="board">
+                <h2 style= 'color: red'>Create your own Monster!</h2>
+            </div>
+            <div id = 'footer'>
+            <form name="f1">
+                <label>Give a design name: </label><input name="word" type="text" style="text-align: center;">  
+                <input value="Go" type="button" >
+            </form>
+            <button type="button" onclick="FinalSaving()" >Save</button>  
+            <button type="button" onclick="PerlSubmit()">Submit</button>
+            </div>
+        </div>
+        <script>
+
+            var arr=[];
+            function Saving(e){
+                var rect = e.getBoundingClientRect();
+                var r = document.body.getElementsByClassName("board")[0].getBoundingClientRect();
+                var x = rect.left - r.left;
+                var y = rect.top - r.top;
+                var id1=e.getAttribute("src");
+                var obj={"id":[id1],"coordinates":[y,x]}
+                var flag=-1
+                for (i=0;i<arr.length;i++){
+                    var {id}=arr[i]
+                    if(id1==id)
+                        flag=i
+                }
+                if(flag!=-1){           
+                    if(obj.coordinates[0]>10 && obj.coordinates[1]>10){         
+                        arr[flag]=obj;
+                    }
+                    else{
+                        arr.splice(flag, 1);
+                    }
+                }
+                else{
+                    if(obj.coordinates[0]>10 && obj.coordinates[1]>10){         
+                        arr.push(obj);
+                    }  
+                }
+            }
+            function FinalSaving(){
+                //console.log(arr);
+            }
+            function PerlSubmit() {
+                var dd = arr;
+                console.log(dd);
+                var design_no = getquerystring();
+                var s = '<monster design_id = "' + design_no + '" >';
+
+                for(i = 0;i < arr.length; i++)
+                {
+                    s += '<image>'
+                    s += '<id>' + arr[i].id + '</id>'
+                    s += "<coordinates>" + arr[i].coordinates[0] + "</coordinates>"
+                    s += "<coordinates>" + arr[i].coordinates[1] + "</coordinates>"
+                    s += '</image>'
+                }
+                s += '</monster>'
+                console.log(s)
+                $.ajax({
+                    type: 'POST',
+                    url: '/Mix&Create_C1_35_42/Server Side/store.pl',
+                    data: "r=" + s,
+                    success: function(res) { alert(res); },
+                    error: function() { alert("did not work"); }
+                });
+                }
+                function getquerystring() {
+                    var form = document.forms['f1'];
+                    var word = form.word.value;
+                    qstr = word.toString();
+                    return qstr;
+                }
+
+                $(function() {
+            var myElement = document.getElementsByClassName("palette");
+            console.log(myElement)
+            
+            //$("ul").selectable();
+            $('.flexx img').draggable({
+                drag: function(ev,ui)
+                {
+                    Saving(this);
+                },
+                container:myElement
+            })
+            $( ".board" ).droppable()})
+
+        </script>
+    </body>
+</html>

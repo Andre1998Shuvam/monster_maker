@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+    <title>Monster Viewer</title>
+    <script type="text/javascript" src="_lib/jquery.js"></script>
+    <script type="text/javascript" src="jquery.jstree.js"></script>
+    <script src='http://use.edgefonts.net/creepster.js'></script>
+    <script src='http://use.edgefonts.net/flavors.js'></script>
+    <style>
+            ul { color: white; list-style-type:none}
+            li{float: left;}
+            .body h2{
+                font-family: 'Flavors';
+            }
+            body{
+                background-image: url("https://www.imore.com/sites/imore.com/files/styles/large/public/field/image/2020/12/monster-hunter-rise-rampage.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .palette{
+                width:95%;
+                margin: auto;
+                margin: auto;
+                color: aqua;
+                padding: 10px;
+                overflow:hidden;
+            }
+            .board{
+                width:80%;
+                min-height: 80vh;
+                position: relative;
+                margin: 0.5rem auto;
+                text-align: center;
+                background-image: url("https://i.pinimg.com/474x/ba/d2/10/bad210a91ac2d87911359aab80afc2b3.jpg");
+                background-size: cover;
+                border: 5px solid red; 
+                background-color: black;
+                font-family: 'Creepster';
+                font-size: x-large;
+                box-shadow: 0 0 15px 10px #141414;
+                height: 50%;
+            }            
+    </style>
+    <script language="Javascript">
+        var j;
+        var xml, parser;
+        var options;
+        function xmlhttpPost(strURL) {
+            var xmlHttpReq = false;
+            var self = this;
+            // Mozilla/Safari
+            if (window.XMLHttpRequest) {
+                self.xmlHttpReq = new XMLHttpRequest();
+            }
+            // IE
+            else if (window.ActiveXObject) {
+                self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            self.xmlHttpReq.open('POST', strURL, true);
+            self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            self.xmlHttpReq.onreadystatechange = function() {
+                if (self.xmlHttpReq.readyState == 4) {
+                    if(self.xmlHttpReq.responseText == "Not Found!")
+                        alert("Oops! Enter a Design Id!");
+                    else
+                    {
+                        console.log(self.xmlHttpReq.responseText)
+                        parser = new DOMParser();
+                        xml = parser.parseFromString(self.xmlHttpReq.responseText,'text/xml');
+                        updatepage("hello");
+                    }
+                }
+            }
+            self.xmlHttpReq.send(getquerystring());
+        }
+
+        function xmlhttpPost1(strURL) {
+            var xmlHttpReq = false;
+            var self = this;
+            // Mozilla/Safari
+            if (window.XMLHttpRequest) {
+                self.xmlHttpReq = new XMLHttpRequest();
+            }
+            // IE
+            else if (window.ActiveXObject) {
+                self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            self.xmlHttpReq.open('POST', strURL, true);
+            self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            self.xmlHttpReq.onreadystatechange = function() {
+                if (self.xmlHttpReq.readyState == 4) {
+                    if(self.xmlHttpReq.responseText == "Not Found!")
+                        alert("Oops! Not found");
+                    else
+                    {
+                        options = JSON.parse(self.xmlHttpReq.responseText);
+                        var pos;
+                        var op = '';
+                        for(pos = 0;pos < options.id.length;pos++)
+                        {
+                            op = '<option value = "' + options.id[pos].toString() + '">' + options.id[pos].toString() + '</option>';
+                            document.getElementById('ids').innerHTML += op;
+                        }
+                    }
+                }
+            }
+            self.xmlHttpReq.send('w=-1');
+        }
+
+        function getquerystring() {
+            var form = document.forms['f1'];
+            var word = form.ids.value;
+            qstr = 'w=' + escape(word);
+            return qstr;
+        }
+
+        function updatepage(str){
+            var txt = '<h2 style="color:red">Here is your Monster! He is gonna eat you!!</h2>';
+            document.getElementById('hello').innerHTML = txt;
+            var s, id, position, top, left, i;
+            var image = xml.getElementsByTagName("image"); 
+            for(i=0;i<xml.getElementsByTagName("image").length;i++)
+            {
+                var arr = [];
+                var x = xml.getElementsByTagName("image")[i];
+                var y = x.firstChild;
+                var k = 0;
+                for (k = 0; k < x.childNodes.length;k++)
+                {
+                    if (y.nodeType == 1)
+                        arr.push(y.childNodes[0].nodeValue);
+                    y = y.nextSibling;
+                };
+                position = "absolute";
+                id = arr[0];
+                top = (arr[1]).toString() + "px";
+                left = (arr[2]).toString() + "px";
+                console.log('id: ' + id)
+                console.log('top: ' + top)
+                console.log('left: ' + left)
+                s = "<img src = " + id + ' width="100" height="100" ' + 'style="position:' + position + ";top:" + top + ";left:" + left + ';">';  
+                document.getElementById('hello').innerHTML += s;
+            }
+        }
+    </script>
+</head>
+<body onload='JavaScript:xmlhttpPost1("/Mix&Create_C1_35_42/Server Side/retrieve.pl")'>      
+    <form name='f1' method = 'post'>
+        <label for = 'ids' style="color: red;"><h2 style="font-family: 'Creepster'; font-size: xx-large;">Choose your Design</h2></label>
+        <select id = 'ids' name = 'ids'>
+            <option value = ''>Select your choice</option>
+        </select>
+        <input value="Go" type="button" onclick='JavaScript:xmlhttpPost("/Mix&Create_C1_35_42/Server Side/retrieve.pl")'>
+    </form>
+    <div class = 'palette'>
+    <div id= 'hello' class="board"></div>
+    </div>  
+</body>
+</html>
